@@ -68,7 +68,6 @@ services:
       - kafka
       - kafka-schema-registry
 
-
   kafka-connect:
     image: confluentinc/cp-kafka-connect:7.3.2
     hostname: kafka-connect
