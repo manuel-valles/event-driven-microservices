@@ -4,29 +4,29 @@ import { MessageModel } from './models/message.model';
 import { sendMessage } from './utils/kafka';
 
 const createProductBody = {
-    type: 'object',
-    properties: {
-        text: { type: 'string' },
-    },
-    required: ['text'],
+  type: 'object',
+  properties: {
+    text: { type: 'string' }
+  },
+  required: ['text']
 } as const;
 
 export const routes = async (app: FastifyInstance) => {
-    app.post<{ Body: FromSchema<typeof createProductBody> }>(
-        '/',
-        {
-            schema: {
-                body: createProductBody,
-            },
-        },
-        async (req, reply) => {
-            const { text } = req.body;
+  app.post<{ Body: FromSchema<typeof createProductBody> }>(
+    '/',
+    {
+      schema: {
+        body: createProductBody
+      }
+    },
+    async (req, reply) => {
+      const { text } = req.body;
 
-            const message = await MessageModel.create({ text });
+      const message = await MessageModel.create({ text });
 
-            await sendMessage('message-created', JSON.stringify(message));
+      await sendMessage('message-created', JSON.stringify(message));
 
-            return reply.code(201).send(message);
-        }
-    );
-}
+      return reply.code(201).send(message);
+    }
+  );
+};

@@ -1,10 +1,10 @@
-import fastify from "fastify";
-import { routes } from "../routes";
+import fastify from 'fastify';
+import { routes } from '../routes';
 
 export const createServer = () => {
-    const app = fastify();
+  const app = fastify();
 
-    app.register(routes, { prefix: "/api/v1/messages" });
+  app.register(routes, { prefix: '/api/v1/messages' });
 
-    return app;
-}
+  return app;
+};

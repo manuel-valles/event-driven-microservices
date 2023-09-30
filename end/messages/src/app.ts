@@ -1,35 +1,32 @@
-import { connectToDb } from "./utils/db";
-import { connectProducer, disconnectFromKafka } from "./utils/kafka";
-import { createServer } from "./utils/server";
+import { connectToDb } from './utils/db';
+import { connectProducer, disconnectFromKafka } from './utils/kafka';
+import { createServer } from './utils/server';
 
-const gracefulShutdown = async (app: Awaited<ReturnType<typeof createServer>>)=> {
-    console.log("Graceful shutdown");
+const gracefulShutdown = async (app: Awaited<ReturnType<typeof createServer>>) => {
+  console.log('Graceful shutdown');
 
-    await app.close();
-    await disconnectFromKafka();
+  await app.close();
+  await disconnectFromKafka();
 
-    process.exit(0);
-}
+  process.exit(0);
+};
 
-const main = async () => {
-    const app = createServer();
-    const port = process.env.PORT ? parseInt(process.env.PORT) : 3000;
+(async () => {
+  const app = createServer();
+  const port = process.env.PORT ? parseInt(process.env.PORT) : 3000;
 
-    await connectToDb();
-    await connectProducer();
-    await app.listen({ port, host: "0.0.0.0"});
+  await connectToDb();
+  await connectProducer();
+  await app.listen({ port, host: '0.0.0.0' });
 
-    const signals = ["SIGINT", "SIGTERM", "SIGQUIT"] as const;
+  const signals = ['SIGINT', 'SIGTERM', 'SIGQUIT'] as const;
 
-    for (let i = 0; i < signals.length; i++) {
-        const signal = signals[i];
-        process.on(signal, () => {
-            gracefulShutdown(app);
-        });
-    }
+  for (let i = 0; i < signals.length; i++) {
+    const signal = signals[i];
+    process.on(signal, () => {
+      gracefulShutdown(app);
+    });
+  }
 
-    console.log(`Message service ready at http://localhost:${port}`);
-}
-
-// @ts-ignore
-await main();
+  console.log(`Message service ready at http://localhost:${port}`);
+})();
