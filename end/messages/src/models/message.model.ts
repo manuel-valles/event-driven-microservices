@@ -1,6 +1,7 @@
-import { Schema, model, InferSchemaType } from "mongoose";
-import { customAlphabet } from "nanoid";
-const nanoid = customAlphabet("abcdefghijklmnopqrstuvqxyz0123456789", 10);
+import {Schema, model, InferSchemaType} from 'mongoose';
+import {customAlphabet} from 'nanoid';
+
+const nanoid = customAlphabet('abcdefghijklmnopqrstuvqxyz0123456789', 10);
 
 const messageSchema = new Schema({
     text: {
@@ -14,6 +15,6 @@ const messageSchema = new Schema({
     },
 });
 
-export const MessageModel = model("Message", messageSchema);
+export const MessageModel = model('Message', messageSchema);
 
 export type Message = InferSchemaType<typeof messageSchema>;

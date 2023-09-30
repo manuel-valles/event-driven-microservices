@@ -176,6 +176,15 @@ services:
       - ksqldb-server
       - conduktor-monitoring
 
+  mongo:
+    image: mongo:6.0
+    hostname: mongo
+    container_name: mongo
+    ports:
+      - '27017:27017'
+    environment:
+      MONGO_INITDB_DATABASE: "product"
+
 volumes:
   pg_data: {}
   conduktor_data: {}
