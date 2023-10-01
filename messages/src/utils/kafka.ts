@@ -1,9 +1,10 @@
 import { Partitioners, Kafka } from 'kafkajs';
 
 const brokers = ['0.0.0.0:9092'];
+const topics = ['message-created'] as const;
 
 const kafka = new Kafka({
-  clientId: 'messages-app',
+  clientId: 'messages-service',
   brokers
 });
 
@@ -20,8 +21,6 @@ const disconnectProvider = async () => {
   await producer.disconnect();
   console.log('Producer disconnected');
 };
-
-const topics = ['message-created'] as const;
 
 const sendMessage = async (topic: (typeof topics)[number], message: string | Buffer) => {
   return producer.send({
