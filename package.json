@@ -3,8 +3,8 @@
   "version": "1.0.0",
   "private": true,
   "workspaces": [
-    "end/messages",
-    "end/notifications"
+    "messages",
+    "notifications"
   ],
   "scripts": {
     "lint": "yarn workspaces run lint"

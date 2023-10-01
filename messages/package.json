@@ -1,13 +1,14 @@
 {
-  "name": "notifications",
+  "name": "messages",
   "version": "1.0.0",
   "type": "module",
   "scripts": {
-    "dev": "tsx watch src/app.ts"
+    "dev": "node_modules/.bin/tsx watch src/app.ts"
   },
   "dependencies": {
     "fastify": "^4.23.2",
     "kafkajs": "^2.2.4",
+    "mongoose": "^7.5.3",
     "nanoid": "^5.0.1"
   },
   "devDependencies": {
