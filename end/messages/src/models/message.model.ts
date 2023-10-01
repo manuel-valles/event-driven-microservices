@@ -1,7 +1,7 @@
 import { Schema, model, InferSchemaType } from 'mongoose';
-import { customAlphabet } from 'nanoid';
+import { customAlphabet, urlAlphabet } from 'nanoid';
 
-const nanoid = customAlphabet('abcdefghijklmnopqrstuvqxyz0123456789', 10);
+const nanoid = customAlphabet(urlAlphabet, 10);
 
 const messageSchema = new Schema({
   text: {

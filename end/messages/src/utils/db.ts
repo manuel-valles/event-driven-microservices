@@ -1,6 +1,6 @@
 import mongoose from 'mongoose';
 
-export const connectToDb = async () => {
+export const connectDB = async () => {
   const MONGO_URL = process.env.MONGO_URL || 'mongodb://localhost:27017/product';
 
   try {

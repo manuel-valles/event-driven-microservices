@@ -1,12 +1,13 @@
-import { connectToDb } from './utils/db';
-import { connectProducer, disconnectFromKafka } from './utils/kafka';
+import { connectDB } from './utils/db';
+import { connectProducer, disconnectProvider } from './utils/kafka';
 import { createServer } from './utils/server';
+import { FastifyInstance } from 'fastify';
 
-const gracefulShutdown = async (app: Awaited<ReturnType<typeof createServer>>) => {
+const gracefulShutdown = async (app: FastifyInstance) => {
   console.log('Graceful shutdown');
 
   await app.close();
-  await disconnectFromKafka();
+  await disconnectProvider();
 
   process.exit(0);
 };
@@ -15,18 +16,13 @@ const gracefulShutdown = async (app: Awaited<ReturnType<typeof createServer>>) =
   const app = createServer();
   const port = process.env.PORT ? parseInt(process.env.PORT) : 3000;
 
-  await connectToDb();
+  await connectDB();
   await connectProducer();
   await app.listen({ port, host: '0.0.0.0' });
 
   const signals = ['SIGINT', 'SIGTERM', 'SIGQUIT'] as const;
 
-  for (let i = 0; i < signals.length; i++) {
-    const signal = signals[i];
-    process.on(signal, () => {
-      gracefulShutdown(app);
-    });
-  }
+  signals.forEach((signal) => process.on(signal, () => gracefulShutdown(app)));
 
   console.log(`Message service ready at http://localhost:${port}`);
 })();

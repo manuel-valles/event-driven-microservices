@@ -16,7 +16,7 @@ const connectProducer = async () => {
   console.log('Producer connected');
 };
 
-const disconnectFromKafka = async () => {
+const disconnectProvider = async () => {
   await producer.disconnect();
   console.log('Producer disconnected');
 };
@@ -30,4 +30,4 @@ const sendMessage = async (topic: (typeof topics)[number], message: string | Buf
   });
 };
 
-export { connectProducer, disconnectFromKafka, sendMessage };
+export { connectProducer, disconnectProvider, sendMessage };
